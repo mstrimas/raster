@@ -54,6 +54,8 @@ quick_calc <- compiler::cmpfun(function(x, fun = c("mean", "sum"),
   b <- make_block(out, n = 2 * (raster::nlayers(x) + 1),
                   blocksize = blocksize, n_rows = n_rows)
   
+  message(paste("Using", b$n, "blocks of", b$n_rows[1], "rows."))
+  
   for (i in seq_along(b$start_row)) {
     v <- raster::getValues(x, row = b$start_row[i], nrows = b$n_rows[i])
     v <- fun(v, na.rm = TRUE)
