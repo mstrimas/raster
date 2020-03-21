@@ -31,7 +31,7 @@ make_block <- function(x, n = raster::nlayers(x), blocksize = 1e9,
 }
 
 quick_calc <- compiler::cmpfun(function(x, fun = c("mean", "sum"), 
-                                        blocksize = 1e9, n_rows = NULLL,
+                                        blocksize = 1e9, n_rows = NULL,
                                         filename = tempfile(), ...) {
   stopifnot(inherits(x, "Raster"))
   stopifnot(is.numeric(blocksize), length(blocksize) == 1, blocksize > 1000)
