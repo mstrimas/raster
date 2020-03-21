@@ -166,7 +166,8 @@
 
 
 setMethod('calc', signature(x='Raster', fun='function'), 
-function(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ...) {
+function(x, fun, filename='', na.rm, return_blocks = FALSE, 
+         forcefun=FALSE, forceapply=FALSE, ...) {
 
 	nl <- nlayers(x)
 
@@ -192,6 +193,7 @@ function(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ...) {
 	
 	estnl <- (nlayers(x) + nlayers(out)) * 2
 	if (canProcessInMemory(x, estnl)) {
+	  message("Processing in memory.")
 		x <- getValues(x)
 		if (makemat) { 
 			x <- matrix(x, ncol=1) 
@@ -224,6 +226,11 @@ function(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ...) {
 	x <- readStart(x)
 	out <- writeStart(out, filename=filename, ...)
 	tr <- blockSize(out, n=estnl)
+	if (isTRUE(return_blocks)) {
+	  return(tr)
+	} else {
+	  message(paste("Using", tr$n, "blocks of", tr$nrows[1], "rows."))
+	}
 	pb <- pbCreate(tr$n, label='calc', ...)			
 
 	if (missing(na.rm)) {
