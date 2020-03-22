@@ -18,10 +18,11 @@ blockSize <- function(x, chunksize, n=nlayers(x), minblocks=4, minrows=1) {
 		blockrows <- 1
 	}
 	blockrows <- max(blockrows, 1)
-
+	
 
 	nr <- nrow(x)
 	size <- min(nr, max(1, floor(bs / (ncol(x) * n * 8))))
+	
 	# min number of chunks
 	if (size > 1) {
 		minblocks <- min(nr, max(1, minblocks))
@@ -29,7 +30,7 @@ blockSize <- function(x, chunksize, n=nlayers(x), minblocks=4, minrows=1) {
 	}
 	size <- min(max(size, minrows), nr)
 	size <- max(minrows, blockrows * round(size / blockrows))
-
+	
 	nb <- ceiling(nr / size)
 	row <- (0:(nb-1))*size + 1
 	nrows <- rep(size, length(row))
