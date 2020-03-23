@@ -36,7 +36,8 @@ make_block <- function(x, n = nlayers(x), chunksize = 1, n_rows = NULL) {
 
 summarize_raster <- function(x, fun = c("mean", "sum"), 
                         chunksize = 1, n_rows = NULL,
-                        filename = tempfile(), ...) {
+                        filename = rasterTmpFile(), 
+                        ...) {
   stopifnot(inherits(x, "Raster"))
   stopifnot(is.numeric(chunksize), length(chunksize) == 1, chunksize > 0.01)
   if (!is.null(n_rows)) {
